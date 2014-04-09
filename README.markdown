@@ -2,23 +2,25 @@
 
 ## Overview
 
-This will set up an installation of Wordpress 3.8 on Debian and Redhat style distributions.
+This will set up one or more installations of Wordpress 3.8 on Debian and Redhat style distributions.
 
 ## Capabilities
 
-Installation includes:
+#### Installation includes:
 
 - Configuration of WordPress DB connection parameters
 - Generate secure keys and salts for `wp-config.php`.
 - Optional creation of MySQL database/user/permissions.
 
-Requires:
+#### Requires:
 
 - Configuration of php-enabled webserver
 - Configuration MySQL server
 - PHP 5.3 or greater
 
 ## Parameters
+
+### Class wordpress
 
 * `install_dir`<br />
   Specifies the directory into which wordpress should be installed. Default: `/opt/wordpress`
@@ -77,9 +79,19 @@ Requires:
 * `wp_site_domain`<br />
   Specifies the `DOMAIN_CURRENT_SITE` value that will be used when configuring multisite. Typically this is the address of the main wordpress instance.  Default: ''
 
+### Define wordpress::instance
+
+* The parameters for `wordpress::instance` is exactly the same as the class `wordpress` except as noted below.
+* The title will be used as the default value for `install_dir` unless otherwise specified.
+* The `db_name` and `db_user` parameters are required.
+
+### Other classes and defines
+
+The classes `wordpress::app` and `wordpress::db` and defines `wordpress::instance::app` and `wordpress::instance::db` are technically private, but any PRs which add documentation and tests  so that they may be made public for multi-node deployments are welcome!
+
 ## Example Usage
 
-Default deployment (insecure; default passwords and installed as root):
+Default single deployment (insecure; default passwords and installed as root):
 
 ```puppet
 class { 'wordpress': }
@@ -93,6 +105,25 @@ class { 'wordpress':
   wp_group    => 'wordpress',
   db_user     => 'wordpress',
   db_password => 'hvyH(S%t(\"0\"16',
+}
+```
+
+Basic deployment of multiple instances (secure database password, installed as `wordpress` user/group):
+
+```puppet
+wordpress::instance { '/opt/wordpress1':
+  wp_owner    => 'wordpress1',
+  wp_group    => 'wordpress1',
+  db_user     => 'wordpress1',
+  db_name     => 'wordpress1',
+  db_password => 'hvyH(S%t(\"0\"16',
+}
+wordpress::instance { '/opt/wordpress2':
+  wp_owner    => 'wordpress2',
+  wp_group    => 'wordpress2',
+  db_user     => 'wordpress2',
+  db_name     => 'wordpress2',
+  db_password => 'bb69381b4b9de3a232',
 }
 ```
 
