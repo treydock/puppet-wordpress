@@ -1,5 +1,6 @@
 define wordpress::instance::app (
   $install_dir,
+  $install_parent_dir,
   $install_url,
   $version,
   $db_name,
@@ -18,7 +19,7 @@ define wordpress::instance::app (
   $wp_site_domain,
 ) {
   validate_string($install_dir,$install_url,$version,$db_name,$db_host,$db_user,$db_password,$wp_owner,$wp_group, $wp_lang, $wp_plugin_dir,$wp_additional_config,$wp_table_prefix,$wp_proxy_host,$wp_proxy_port,$wp_site_domain)
-  validate_bool($wp_multisite)
+  validate_bool($install_parent_dir,$wp_multisite)
   validate_absolute_path($install_dir)
 
   if $wp_multisite and ! $wp_site_domain {
@@ -38,6 +39,18 @@ define wordpress::instance::app (
     user      => $wp_owner,
     group     => $wp_group,
   }
+
+  ## Installation parent directory
+  if $install_parent_dir {
+    $parent_dir = dirname($install_dir)
+
+    if ! defined(File[$parent_dir]) {
+      file { $parent_dir:
+        ensure  => directory,
+      }
+    }
+  }
+
 
   ## Installation directory
   if ! defined(File[$install_dir]) {

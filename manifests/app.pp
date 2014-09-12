@@ -1,5 +1,6 @@
 class wordpress::app (
   $install_dir,
+  $install_parent_dir,
   $install_url,
   $version,
   $db_name,
@@ -19,6 +20,7 @@ class wordpress::app (
 ) {
   wordpress::instance::app { $install_dir:
     install_dir          => $install_dir,
+    install_parent_dir   => $install_parent_dir,
     install_url          => $install_url,
     version              => $version,
     db_name              => $db_name,

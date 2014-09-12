@@ -8,6 +8,10 @@
 #   Specifies the directory into which wordpress should be installed. Default:
 #   /opt/wordpress
 #
+# [*install_parent_dir]
+#   Specifies whether to manage the install_dir parent directory.
+#   Default: false
+#
 # [*install_url*]
 #   Specifies the url from which the wordpress tarball should be downloaded.
 #   Default: http://wordpress.org
@@ -72,6 +76,7 @@
 #
 class wordpress (
   $install_dir          = '/opt/wordpress',
+  $install_parent_dir   = false,
   $install_url          = 'http://wordpress.org',
   $version              = '3.8',
   $create_db            = true,
@@ -92,7 +97,8 @@ class wordpress (
   $wp_site_domain       = '',
 ) {
   wordpress::instance { $install_dir:
-    install_dir => $install_dir,
+    install_dir         => $install_dir,
+    install_parent_dir  => $install_parent_dir,
     install_url         => $install_url,
     version             => $version,
     create_db           => $create_db,
