@@ -9,6 +9,8 @@ class wordpress::app (
   $db_password,
   $wp_owner,
   $wp_group,
+  $wp_content_owner,
+  $wp_content_group,
   $wp_lang,
   $wp_plugin_dir,
   $wp_additional_config,

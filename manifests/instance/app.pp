@@ -9,6 +9,8 @@ define wordpress::instance::app (
   $db_password,
   $wp_owner,
   $wp_group,
+  $wp_content_owner,
+  $wp_content_group,
   $wp_lang,
   $wp_plugin_dir,
   $wp_additional_config,
@@ -60,6 +62,14 @@ define wordpress::instance::app (
     }
   } else {
     notice("Warning: cannot manage the permissions of ${install_dir}, as another resource (perhaps apache::vhost?) is managing it.")
+  }
+
+  file { "${install_dir}/wp-content":
+    ensure  => directory,
+    owner   => $wp_content_owner,
+    group   => $wp_content_group,
+    recurse => true,
+    require => Exec["Extract wordpress ${install_dir}"],
   }
 
   ## Download and extract
