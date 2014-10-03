@@ -8,6 +8,8 @@ define wordpress::instance::app (
   $db_password,
   $wp_owner,
   $wp_group,
+  $wp_content_owner,
+  $wp_content_group,
   $wp_lang,
   $wp_config_content,
   $wp_plugin_dir,
@@ -21,7 +23,7 @@ define wordpress::instance::app (
   $wp_debug_log,
   $wp_debug_display,
 ) {
-  validate_string($install_dir,$install_url,$version,$db_name,$db_host,$db_user,$db_password,$wp_owner,$wp_group, $wp_lang, $wp_plugin_dir,$wp_additional_config,$wp_table_prefix,$wp_proxy_host,$wp_proxy_port,$wp_site_domain)
+  validate_string($install_dir,$install_url,$version,$db_name,$db_host,$db_user,$db_password,$wp_owner,$wp_group, $wp_content_owner, $wp_content_group, $wp_lang, $wp_plugin_dir,$wp_additional_config,$wp_table_prefix,$wp_proxy_host,$wp_proxy_port,$wp_site_domain)
   validate_bool($wp_multisite, $wp_debug, $wp_debug_log, $wp_debug_display)
   validate_absolute_path($install_dir)
 
@@ -82,6 +84,14 @@ define wordpress::instance::app (
     refreshonly => true,
     user        => $wp_owner,
     group       => $wp_group,
+  }
+
+  file { "${install_dir}/wp-content":
+    ensure  => directory,
+    owner   => $wp_content_owner,
+    group   => $wp_content_group,
+    recurse => true,
+    require => Exec["Extract wordpress ${install_dir}"],
   }
 
   ## Configure wordpress

@@ -56,6 +56,12 @@ This will set up one or more installations of Wordpress 3.8 on Debian and Redhat
 * `wp_group`<br />
   Specifies the group of the wordpress files. Default: `0` (\*BSD/Darwin compatible GID)
 
+* `wp_content_owner`<br />
+  Specifies the owner of the wordpress wp-content files. Default: root
+
+* `wp_content_group`<br />
+  Specifies the group of the wordpress wp-content files. Default: 0 (*BSD/Darwin compatible GID)
+
 * `wp_lang`<br />
   WordPress Localized Language. Default: ''
 
