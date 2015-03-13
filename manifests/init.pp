@@ -50,6 +50,9 @@
 #   Specifies the group of the wordpress wp-content files. Default: 0 (*BSD/Darwin
 #   compatible GID)
 #
+# [*wp_content_recurse*]
+#   Specifies whether to recursively manage the permissions on wp-content. Default: true
+#
 # [*wp_lang*]
 #   WordPress Localized Language. Default: ''
 #
@@ -102,6 +105,7 @@ class wordpress (
   $wp_group             = '0',
   $wp_content_owner     = 'root',
   $wp_content_group     = '0',
+  $wp_content_recurse   = true,
   $wp_lang              = '',
   $wp_config_content    = undef,
   $wp_plugin_dir        = 'DEFAULT',
@@ -129,6 +133,7 @@ class wordpress (
     wp_group             => $wp_group,
     wp_content_owner     => $wp_content_owner,
     wp_content_group     => $wp_content_group,
+    wp_content_recurse   => $wp_content_recurse,
     wp_lang              => $wp_lang,
     wp_config_content    => $wp_config_content,
     wp_plugin_dir        => $wp_plugin_dir,
