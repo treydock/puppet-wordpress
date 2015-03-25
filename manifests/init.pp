@@ -53,6 +53,17 @@
 # [*wp_content_recurse*]
 #   Specifies whether to recursively manage the permissions on wp-content. Default: true
 #
+# [*wp_config_owner*]
+#   Specifies the other of the wordpress wp-config.php.  You must ensure this user
+#   exists as this module does not attempt to create it if missing.  Default: root
+#
+# [*wp_config_group*]
+#   Specifies the group of the wordpress wp-config.php. Default: 0 (*BSD/Darwin
+#   compatible GID)
+#
+# [*wp_config_mode*]
+#   Specifies the file permissions of wp-config.php. Default: 0640
+#
 # [*wp_lang*]
 #   WordPress Localized Language. Default: ''
 #
@@ -106,6 +117,9 @@ class wordpress (
   $wp_content_owner     = 'root',
   $wp_content_group     = '0',
   $wp_content_recurse   = true,
+  $wp_config_owner      = 'root',
+  $wp_config_group      = '0',
+  $wp_config_mode       = '0640',
   $wp_lang              = '',
   $wp_config_content    = undef,
   $wp_plugin_dir        = 'DEFAULT',
@@ -134,6 +148,9 @@ class wordpress (
     wp_content_owner     => $wp_content_owner,
     wp_content_group     => $wp_content_group,
     wp_content_recurse   => $wp_content_recurse,
+    wp_config_owner      => $wp_config_owner,
+    wp_config_group      => $wp_config_group,
+    wp_config_mode       => $wp_config_mode,
     wp_lang              => $wp_lang,
     wp_config_content    => $wp_config_content,
     wp_plugin_dir        => $wp_plugin_dir,
